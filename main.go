@@ -6,14 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"ODS-GATEWAY-API/controller"
-	_ "ODS-GATEWAY-API/docs"
+	"github.com/lulouis/gin-auth2-swagger-demo/controller"
+	_ "github.com/lulouis/gin-auth2-swagger-demo/docs"
 
 	"gopkg.in/oauth2.v3/manage"
 	"gopkg.in/oauth2.v3/models"
 	aserver "gopkg.in/oauth2.v3/server"
 	"gopkg.in/oauth2.v3/store"
-	"ODS-GATEWAY-API/ginserver"
+	"github.com/lulouis/gin-auth2-swagger-demo/ginserver"
 
 	"github.com/gin-contrib/cors"
 )
