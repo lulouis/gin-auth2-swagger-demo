@@ -2,12 +2,13 @@ package main
 
 import (
 	"net/http"
-
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/lulouis/gin-swagger"
 	"github.com/lulouis/gin-swagger/swaggerFiles"
 	"github.com/lulouis/gin-auth2-swagger-demo/controller"
 	_ "github.com/lulouis/gin-auth2-swagger-demo/docs"
+	"github.com/lulouis/gin-auth2-swagger-demo/httputil"
 
 	"gopkg.in/oauth2.v3/manage"
 	"gopkg.in/oauth2.v3/models"
@@ -142,7 +143,8 @@ func main() {
 		admin := v1.Group("/admin")
 		{
 			//admin.Use(checkClientToken())
-			admin.Use(ginserver.HandleTokenVerify())
+			//admin.Use(ginserver.HandleTokenVerify())
+			admin.Use(auth())
 			admin.POST("/auth", c.Auth)
 		}
 		examples := v1.Group("/examples")
@@ -160,3 +162,13 @@ func main() {
 	r.Run(":8080")
 }
 
+
+func auth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if len(c.GetHeader("Authorization")) == 0 {
+			httputil.NewError(c, http.StatusUnauthorized, errors.New("Authorization is required Header"))
+			c.Abort()
+		}
+		c.Next()
+	}
+}
