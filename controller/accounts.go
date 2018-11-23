@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/swag/example/celler/httputil"
-	"github.com/swaggo/swag/example/celler/model"
+	"github.com/lulouis/gin-auth2-swagger-demo/httputil"
+	"github.com/lulouis/gin-auth2-swagger-demo/model"
 )
 
 // ShowAccount godoc

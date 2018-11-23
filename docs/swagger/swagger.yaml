@@ -65,7 +65,7 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: This is a Restful Oauth Oauth2 Swagger sample server celler server.
+  description: This is a Restful Oauth2 Swagger Example API server.
   license: {}
   termsOfService: http://swagger.io/terms/
   title: Restful Oauth2 Swagger Example API

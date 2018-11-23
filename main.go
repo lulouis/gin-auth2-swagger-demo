@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"github.com/lulouis/gin-swagger"
+	"github.com/lulouis/gin-swagger/swaggerFiles"
 	"github.com/lulouis/gin-auth2-swagger-demo/controller"
 	_ "github.com/lulouis/gin-auth2-swagger-demo/docs"
 
@@ -20,7 +20,7 @@ import (
 
 // @title Restful Oauth2 Swagger Example API
 // @version 2018.11.2
-// @description This is a Restful Oauth Oauth2 Swagger sample server celler server.
+// @description This is a Restful Oauth2 Swagger Example API server.
 // @termsOfService http://swagger.io/terms/
 
 // hide@contact.name API Support

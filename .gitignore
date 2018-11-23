@@ -1,0 +1,11 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+
+gin-auth2-swagger-demo
+
+# Folders
+*.exe
+*.exe~
+*.gz
+*.xlsx
+.idea
+*.out
