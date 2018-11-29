@@ -32,7 +32,7 @@ import (
 // hide@license.name Apache 2.0
 // hide@license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host localhost
 // @BasePath /api/v1
 
 // @securityDefinitions.basic BasicAuth
@@ -42,7 +42,7 @@ import (
 // @name Authorization
 
 // @securitydefinitions.oauth2.application OAuth2Application
-// @tokenUrl http://localhost:8080/oauth2/token
+// @tokenUrl http://localhost/oauth2/token
 // @scope.write Grants write access
 // @scope.admin Grants read and write access to administrative information
 
@@ -58,8 +58,8 @@ import (
 // // @scope.admin Grants read and write access to administrative information
 
 // // @securitydefinitions.oauth2.accessCode OAuth2AccessCode
-// // @tokenUrl http://localhost:8080/oauth2/token
-// // @authorizationUrl http://localhost:8080/oauth2/authorize
+// // @tokenUrl http://localhost/oauth2/token
+// // @authorizationUrl http://localhost/oauth2/authorize
 // // @scope.admin Grants read and write access to administrative information
 
 
@@ -171,7 +171,7 @@ func main() {
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.Run(":8080")
+	r.Run(":80")
 }
 
 func auth() gin.HandlerFunc {
