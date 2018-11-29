@@ -27,8 +27,8 @@ CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gin-auth2-swagger-dem
 
 Run
 ```console
- docker run -itd -p 8080:8080 --rm --name demo gin-auth2-swagger-demo
+ docker run -itd -p 80:80 --rm --name demo gin-auth2-swagger-demo
 ```
 
-[open swagger](http://localhost:8080/swagger/index.html)
+[open swagger](http://localhost/swagger/index.html)
 
