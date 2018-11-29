@@ -2,7 +2,7 @@ FROM alpine:latest
 
 COPY ./gin-auth2-swagger-demo /demo/gin-auth2-swagger-demo
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["/demo/gin-auth2-swagger-demo"]
 
