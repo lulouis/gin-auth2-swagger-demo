@@ -11,10 +11,10 @@ import (
 	// "github.com/lulouis/gin-auth2-swagger-demo/httputil"
 
 	"gopkg.in/oauth2.v3/manage"
-	// "gopkg.in/oauth2.v3/models"
+	"gopkg.in/oauth2.v3/models"
 	aserver "gopkg.in/oauth2.v3/server"
 	"gopkg.in/oauth2.v3/store"
-	"github.com/go-oauth2/redis"
+	"gopkg.in/go-oauth2/redis.v3"
 	"github.com/lulouis/gin-auth2-swagger-demo/ginserver"
 
 	"github.com/gin-contrib/cors"
@@ -64,27 +64,36 @@ import (
 
 
 func main() {
-	//r := gin.Default()
-	// gin.SetMode(gin.ReleaseMode)
+	// //r := gin.Default()
+	// // gin.SetMode(gin.ReleaseMode)
 
-	manager := manage.NewDefaultManager()
-	// token store
-	manager.MustTokenStorage(store.NewMemoryTokenStore())
-	// client store
+	// //单机版本的令牌保存
+	// manager := manage.NewDefaultManager()
+	// // token store
+	// manager.MustTokenStorage(store.NewMemoryTokenStore())
+	// // client store
 	// clientStore := store.NewClientStore()
 	// clientStore.Set("000000", &models.Client{
 	// 	ID:     "000000",
 	// 	Secret: "999999",
 	// })
-	
+	// manager.MapClientStorage(clientStore)
+
+
+	//负载均衡版本的令牌保存
+	manager := manage.NewDefaultManager()
+	clientStore := store.NewClientStore()
+	clientStore.Set("000000", &models.Client{
+		ID:     "000000",
+		Secret: "999999",
+	})
+	manager.MapClientStorage(clientStore)
 	// use redis token store
 	manager.MapTokenStorage(redis.NewRedisStore(&redis.Options{
 		Addr: "192.168.2.85:6379",
-		DB: 15,
+		DB: 1,
 	}))
 
-
-	// manager.MapClientStorage(clientStore)
 	// Initialize the oauth2 service
 	ginserver.InitServer(manager)
 	ginserver.SetAllowGetAccessRequest(true)
