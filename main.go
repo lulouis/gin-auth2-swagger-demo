@@ -8,12 +8,13 @@ import (
 	"github.com/lulouis/gin-swagger/swaggerFiles"
 	"github.com/lulouis/gin-auth2-swagger-demo/controller"
 	_ "github.com/lulouis/gin-auth2-swagger-demo/docs"
-	"github.com/lulouis/gin-auth2-swagger-demo/httputil"
+	// "github.com/lulouis/gin-auth2-swagger-demo/httputil"
 
 	"gopkg.in/oauth2.v3/manage"
-	"gopkg.in/oauth2.v3/models"
+	// "gopkg.in/oauth2.v3/models"
 	aserver "gopkg.in/oauth2.v3/server"
 	"gopkg.in/oauth2.v3/store"
+	"github.com/go-oauth2/redis"
 	"github.com/lulouis/gin-auth2-swagger-demo/ginserver"
 
 	"github.com/gin-contrib/cors"
@@ -45,11 +46,6 @@ import (
 // @scope.write Grants write access
 // @scope.admin Grants read and write access to administrative information
 
-// // @securitydefinitions.oauth2.application OAuth2Application
-// // @tokenUrl http://localhost:8080/oauth2/token?grant_type=client_credentials&scope=admin&client_id=000000&client_secret=999999
-// // @scope.write Grants write access
-// // @scope.admin Grants read and write access to administrative information
-
 // // @securitydefinitions.oauth2.implicit OAuth2Implicit
 // // @authorizationUrl https://example.com/oauth/authorize
 // // @scope.write Grants write access
@@ -75,12 +71,20 @@ func main() {
 	// token store
 	manager.MustTokenStorage(store.NewMemoryTokenStore())
 	// client store
-	clientStore := store.NewClientStore()
-	clientStore.Set("000000", &models.Client{
-		ID:     "000000",
-		Secret: "999999",
-	})
-	manager.MapClientStorage(clientStore)
+	// clientStore := store.NewClientStore()
+	// clientStore.Set("000000", &models.Client{
+	// 	ID:     "000000",
+	// 	Secret: "999999",
+	// })
+	
+	// use redis token store
+	manager.MapTokenStorage(redis.NewRedisStore(&redis.Options{
+		Addr: "192.168.2.85:6379",
+		DB: 15,
+	}))
+
+
+	// manager.MapClientStorage(clientStore)
 	// Initialize the oauth2 service
 	ginserver.InitServer(manager)
 	ginserver.SetAllowGetAccessRequest(true)
@@ -142,9 +146,8 @@ func main() {
 		}
 		admin := v1.Group("/admin")
 		{
-			//admin.Use(checkClientToken())
-			//admin.Use(ginserver.HandleTokenVerify())
 			admin.Use(auth())
+			//admin.Use(ginserver.HandleTokenVerify())
 			admin.POST("/auth", c.Auth)
 		}
 		examples := v1.Group("/examples")
@@ -162,13 +165,25 @@ func main() {
 	r.Run(":8080")
 }
 
-
 func auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if len(c.GetHeader("Authorization")) == 0 {
-			httputil.NewError(c, http.StatusUnauthorized, errors.New("Authorization is required Header"))
+			NewError(c, http.StatusUnauthorized, errors.New("Authorization is required Header"))
 			c.Abort()
 		}
 		c.Next()
 	}
+}
+
+func NewError(ctx *gin.Context, status int, err error) {
+	er := HTTPError{
+		Code:    status,
+		Message: err.Error(),
+	}
+	ctx.JSON(status, er)
+}
+
+type HTTPError struct {
+	Code    int    `json:"code" example:"400"`
+	Message string `json:"message" example:"status bad request"`
 }
