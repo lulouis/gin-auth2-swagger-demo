@@ -8,7 +8,7 @@ import (
 	"github.com/lulouis/gin-swagger/swaggerFiles"
 	"github.com/lulouis/gin-auth2-swagger-demo/controller"
 	_ "github.com/lulouis/gin-auth2-swagger-demo/docs"
-	// "github.com/lulouis/gin-auth2-swagger-demo/httputil"
+	"github.com/lulouis/gin-auth2-swagger-demo/httputil"
 
 	"gopkg.in/oauth2.v3/manage"
 	"gopkg.in/oauth2.v3/models"
@@ -84,8 +84,9 @@ func main() {
 	manager := manage.NewDefaultManager()
 	clientStore := store.NewClientStore()
 	clientStore.Set("000000", &models.Client{
-		ID:     "000000",
-		Secret: "999999",
+		ID :     "000000",
+		Secret : "999999",
+		UserID : "00275",
 	})
 	manager.MapClientStorage(clientStore)
 	// use redis token store
@@ -177,22 +178,9 @@ func main() {
 func auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if len(c.GetHeader("Authorization")) == 0 {
-			NewError(c, http.StatusUnauthorized, errors.New("Authorization is required Header"))
+			httputil.NewError(c, http.StatusUnauthorized, errors.New("Authorization is required Header"))
 			c.Abort()
 		}
 		c.Next()
 	}
-}
-
-func NewError(ctx *gin.Context, status int, err error) {
-	er := HTTPError{
-		Code:    status,
-		Message: err.Error(),
-	}
-	ctx.JSON(status, er)
-}
-
-type HTTPError struct {
-	Code    int    `json:"code" example:"400"`
-	Message string `json:"message" example:"status bad request"`
 }
