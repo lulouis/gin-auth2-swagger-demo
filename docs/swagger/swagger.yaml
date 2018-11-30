@@ -62,7 +62,7 @@ definitions:
         example: account name
         type: string
     type: object
-host: localhost:8080
+host: localhost
 info:
   contact: {}
   description: This is a Restful Oauth2 Swagger Example API server.
@@ -672,6 +672,6 @@ securityDefinitions:
     scopes:
       admin: ' Grants read and write access to administrative information'
       write: ' Grants write access'
-    tokenUrl: http://localhost:8080/oauth2/token
+    tokenUrl: http://localhost/oauth2/token
     type: oauth2
 swagger: "2.0"

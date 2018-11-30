@@ -8,7 +8,7 @@
         "license": {},
         "version": "2018.11.2"
     },
-    "host": "localhost:8080",
+    "host": "localhost",
     "basePath": "/api/v1",
     "paths": {
         "/accounts": {
@@ -987,7 +987,7 @@
         "OAuth2Application": {
             "type": "oauth2",
             "flow": "application",
-            "tokenUrl": "http://localhost:8080/oauth2/token",
+            "tokenUrl": "http://localhost/oauth2/token",
             "scopes": {
                 "admin": " Grants read and write access to administrative information",
                 "write": " Grants write access"
